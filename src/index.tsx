@@ -1,16 +1,26 @@
-import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
+import { Provider } from 'react-redux';
+import { ThemeProvider } from '@mui/material/styles';
+import { store } from './store';
+import MUIThemeProvider from './utils/mui.theme';
 import reportWebVitals from './reportWebVitals';
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+import ErrorBoundary from './components/ErrorBoundary';
+import Routes from './routes';
+import './assets/styles/global.css';
+
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <ErrorBoundary name="Whole Application">
+    <ThemeProvider theme={MUIThemeProvider}>
+      <Provider store={store}>
+        <Router>
+          <Routes />
+        </Router>
+      </Provider>
+    </ThemeProvider>
+  </ErrorBoundary>,
 );
 
 // If you want to start measuring performance in your app, pass a function
