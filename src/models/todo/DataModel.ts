@@ -1,0 +1,36 @@
+export interface MTaskDataModel {
+  id: number;
+  title: string;
+  description: string;
+  priority: number;
+  deadline: string;
+  timeSpent: string;
+  status: StatusEnum;
+}
+
+export enum StatusEnum {
+  TODO = 'TODO',
+  DOING = 'DOING',
+  DONE = 'DONE',
+}
+
+export const StatusSelectOption = [
+  { name: 'وضعیت تسک', value: -1 },
+  { name: 'TODO', value: 'TODO' },
+  { name: 'DOING', value: 'DOING' },
+  { name: 'DONE', value: 'DONE' },
+];
+
+export const PrioritySelectOption = [
+  { name: 'اولویت تسک', value: -1 },
+  { name: '1', value: 1 },
+  { name: '2', value: 2 },
+  { name: '3', value: 3 },
+  { name: '4', value: 4 },
+  { name: '5', value: 5 },
+  { name: '6', value: 6 },
+  { name: '7', value: 7 },
+  { name: '8', value: 8 },
+  { name: '9', value: 9 },
+  { name: '10', value: 10 },
+];

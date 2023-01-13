@@ -1,8 +1,14 @@
 @tailwind base;
+
 @tailwind components;
+
 @tailwind utilities;
 
 *:not(i) {
   font-family: 'Shabnam', 'DroidArabicNaskhRegular', serif !important;
   letter-spacing: 0;
+}
+
+.rtl {
+  direction: rtl !important;
 }
