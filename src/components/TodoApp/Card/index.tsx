@@ -1,5 +1,4 @@
 import { Chip, IconButton, Typography } from '@mui/material';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import TaskOutlinedIcon from '@mui/icons-material/TaskOutlined';
 import FolderOpenOutlinedIcon from '@mui/icons-material/FolderOpenOutlined';
 import { MTaskDataModel, StatusEnum } from '../../../models/todo/DataModel';
@@ -28,15 +27,11 @@ const CardTask = (props: ICardTaskProps) => {
 
   return (
     <div
-      className="w-1/2  flex flex-col justify-start shadow-xl bg-white hover:bg-indigo-50 mt-4 rounded-lg p-4
-                      hover:scale-90 duration-300 ease-in-out border "
+      onClick={() => setTaskItem(task)}
+      className="w-11/12  flex flex-col justify-start shadow-xl bg-white hover:bg-blue-100 mt-4 rounded-lg p-4 border cursor-pointer "
     >
-      <div className="flex items-center justify-between w-full">
-        <IconButton onClick={() => setTaskItem(task)}>
-          <MoreVertIcon />
-        </IconButton>
-
-        <div className="flex flex-col">
+      <div className="flex items-center justify-start w-full">
+        <div className="flex w-full flex-col">
           <div className="flex justify-end">
             <Typography className="text-gray-900 font-bold">{title}</Typography>
             <TaskOutlinedIcon className="text-gray-500 ml-4" />

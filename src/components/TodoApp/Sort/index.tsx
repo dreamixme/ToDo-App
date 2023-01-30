@@ -35,12 +35,12 @@ const SortTask = (props: ISortTaskProps) => {
   return (
     <>
       <div
-        className="flex flex-col relative mt-2 cursor-pointer"
+        className="flex flex-col relative cursor-pointer mb-2"
         aria-describedby={id}
         onClick={handleClick}
       >
-        <ArrowDropUpIcon className="text-gray-500" />
-        <ArrowDropDownIcon className="absolute top-1/4 text-gray-500" />
+        <ArrowDropUpIcon className="text-gray-500" fontSize={'large'} />
+        <ArrowDropDownIcon className="absolute top-1/4 text-gray-500" fontSize={'large'} />
       </div>
 
       <Popover
