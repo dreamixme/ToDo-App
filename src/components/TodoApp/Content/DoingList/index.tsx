@@ -9,10 +9,11 @@ type IDoingListProps = {
   doingList: MTaskDataModel[];
   setTaskItem: (task: MTaskDataModel) => void;
   setOpenDrawer: (openDrawer: boolean) => void;
+  updateTask: (id: string, task: MTaskDataModel) => void;
 };
 
 const DoingList = (props: IDoingListProps) => {
-  const { doingList, setOpenDrawer, setTaskItem } = props;
+  const { doingList, setOpenDrawer, setTaskItem, updateTask } = props;
 
   return (
     <>
@@ -23,7 +24,7 @@ const DoingList = (props: IDoingListProps) => {
               item
               lg={4}
               className={clsx(
-                'bg-blue-600',
+                '',
                 styles.dropperDestination,
                 snapshot.isDraggingOver && styles.dropOver,
               )}
@@ -41,6 +42,7 @@ const DoingList = (props: IDoingListProps) => {
                           setOpenDrawer(true);
                         }}
                         key={`todoList${index}`}
+                        updateTask={updateTask}
                       />
                     );
                   })}

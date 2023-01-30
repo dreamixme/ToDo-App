@@ -12,13 +12,13 @@ import { useCountdown } from '../../../utils/countdown';
 type ICardTaskProps = {
   task: MTaskDataModel;
   setTaskItem: (task: MTaskDataModel) => void;
-  // updateTask: (id: number, task: MTaskDataModel) => void;
+  updateTask: (id: string, task: MTaskDataModel) => void;
 };
 
 type TaskStateEnum = 'PlAY' | 'PAUSE' | 'STOP';
 
 const CardTask = (props: ICardTaskProps) => {
-  const { task, setTaskItem } = props;
+  const { task, setTaskItem, updateTask } = props;
   const { title, description, priority, timeSpent, status, id } = task;
   const [timeSpentState, setTimeSpentState] = useState<TaskStateEnum>('PlAY');
 
@@ -29,8 +29,27 @@ const CardTask = (props: ICardTaskProps) => {
     <div className="w-full flex items-center justify-center">
       <div
         onClick={() => setTaskItem(task)}
-        className="w-11/12 flex flex-col justify-start shadow-xl bg-white hover:bg-blue-100 mt-4 rounded-lg p-4 border cursor-pointer "
+        className="w-11/12 relative flex flex-col justify-start shadow-xl bg-white hover:bg-blue-100 mt-4 p-4 rounded-lg  border cursor-pointer "
       >
+        <div className="absolute">
+          <Chip
+            color={
+              status === StatusEnum.TODO
+                ? 'primary'
+                : status === StatusEnum.DOING
+                ? 'secondary'
+                : 'success'
+            }
+            label={
+              status === StatusEnum.TODO
+                ? 'بک لاگ'
+                : status === StatusEnum.DOING
+                ? 'در حال انجام'
+                : 'تمام شده'
+            }
+          />
+        </div>
+
         <div className="flex items-center justify-start w-full">
           <div className="flex w-full flex-col">
             <div className="flex justify-end">
@@ -72,7 +91,7 @@ const CardTask = (props: ICardTaskProps) => {
               )}
 
               <IconButton aria-label="stop">
-                {/*<StopIcon onClick={() => updateTask(id, { ...task, status: StatusEnum.DONE })} />*/}
+                <StopIcon onClick={() => updateTask(id, { ...task, status: StatusEnum.DONE })} />
               </IconButton>
             </div>
           )}

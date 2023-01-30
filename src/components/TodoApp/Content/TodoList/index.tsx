@@ -9,14 +9,15 @@ type ITodoListProps = {
   todoList: MTaskDataModel[];
   setTaskItem: (task: MTaskDataModel) => void;
   setOpenDrawer: (openDrawer: boolean) => void;
+  updateTask: (id: string, task: MTaskDataModel) => void;
 };
 
 const TodoList = (props: ITodoListProps) => {
-  const { todoList, setOpenDrawer, setTaskItem } = props;
+  const { todoList, setOpenDrawer, setTaskItem, updateTask } = props;
 
   return (
     <>
-      <Grid item lg={4} className="bg-amber-400">
+      <Grid item lg={4} className="border border-blue-300 rounded-bl-xl h-[70vh]">
         <Droppable droppableId="devices" type="todo">
           {(provided, snapshot) => {
             return (
@@ -47,6 +48,7 @@ const TodoList = (props: ITodoListProps) => {
                                 setOpenDrawer(true);
                               }}
                               key={`todoList${index}`}
+                              updateTask={updateTask}
                             />
                           </div>
                         );

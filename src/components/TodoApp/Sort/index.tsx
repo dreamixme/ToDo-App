@@ -39,8 +39,8 @@ const SortTask = (props: ISortTaskProps) => {
         aria-describedby={id}
         onClick={handleClick}
       >
-        <ArrowDropUpIcon className="text-gray-500" fontSize={'large'} />
-        <ArrowDropDownIcon className="absolute top-1/4 text-gray-500" fontSize={'large'} />
+        <ArrowDropUpIcon className="text-white" fontSize={'large'} />
+        <ArrowDropDownIcon className="absolute top-1/4 text-white" fontSize={'large'} />
       </div>
 
       <Popover

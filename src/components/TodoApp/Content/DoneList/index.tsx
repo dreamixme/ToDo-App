@@ -6,14 +6,15 @@ type IDoneListProps = {
   doneList: MTaskDataModel[];
   setTaskItem: (task: MTaskDataModel) => void;
   setOpenDrawer: (openDrawer: boolean) => void;
+  updateTask: (id: string, task: MTaskDataModel) => void;
 };
 
 const DoneList = (props: IDoneListProps) => {
-  const { doneList, setOpenDrawer, setTaskItem } = props;
+  const { doneList, setOpenDrawer, setTaskItem, updateTask } = props;
 
   return (
     <>
-      <Grid item lg={4} className="bg-red-700">
+      <Grid item lg={4} className="">
         {doneList.map((task: MTaskDataModel, index: number) => {
           return (
             <CardTask
@@ -23,6 +24,7 @@ const DoneList = (props: IDoneListProps) => {
                 setOpenDrawer(true);
               }}
               key={`todoList${index}`}
+              updateTask={updateTask}
             />
           );
         })}
