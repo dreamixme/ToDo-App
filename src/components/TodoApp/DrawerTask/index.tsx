@@ -7,7 +7,6 @@ import Select from '../../Common/Select';
 import {
   MTaskDataModel,
   PrioritySelectOption,
-  StatusEnum,
   StatusSelectOption,
 } from '../../../models/todo/DataModel';
 import { Add, Delete, Edit } from '@mui/icons-material';
@@ -18,8 +17,8 @@ type IDrawerTaskProps = {
   openDrawer: boolean;
   closeDrawer: (openDrawer: false) => void;
   addTask: (task: MTaskDataModel) => void;
-  updateTask: (id: number, task: MTaskDataModel) => void;
-  deleteTask: (id: number) => void;
+  updateTask: (id: string, task: MTaskDataModel) => void;
+  deleteTask: (id: string) => void;
   taskItem: MTaskDataModel;
 };
 
@@ -49,7 +48,9 @@ const DrawerTask = (props: IDrawerTaskProps) => {
   };
 
   const onSubmit = async (data: any) => {
-    taskItem ? updateTask(id, data) : addTask({ ...data, id: Math.ceil(Math.random() * 10000) });
+    taskItem
+      ? updateTask(id, data)
+      : addTask({ ...data, id: Math.ceil(Math.random() * 10000).toString() });
     toggleDrawer();
   };
 

@@ -12,13 +12,13 @@ import { useCountdown } from '../../../utils/countdown';
 type ICardTaskProps = {
   task: MTaskDataModel;
   setTaskItem: (task: MTaskDataModel) => void;
-  updateTask: (id: number, task: MTaskDataModel) => void;
+  // updateTask: (id: number, task: MTaskDataModel) => void;
 };
 
 type TaskStateEnum = 'PlAY' | 'PAUSE' | 'STOP';
 
 const CardTask = (props: ICardTaskProps) => {
-  const { task, setTaskItem, updateTask } = props;
+  const { task, setTaskItem } = props;
   const { title, description, priority, timeSpent, status, id } = task;
   const [timeSpentState, setTimeSpentState] = useState<TaskStateEnum>('PlAY');
 
@@ -28,8 +28,8 @@ const CardTask = (props: ICardTaskProps) => {
   return (
     <div className="w-full flex items-center justify-center">
       <div
-          onClick={() => setTaskItem(task)}
-          className="w-11/12 flex flex-col justify-start shadow-xl bg-white hover:bg-blue-100 mt-4 rounded-lg p-4 border cursor-pointer "
+        onClick={() => setTaskItem(task)}
+        className="w-11/12 flex flex-col justify-start shadow-xl bg-white hover:bg-blue-100 mt-4 rounded-lg p-4 border cursor-pointer "
       >
         <div className="flex items-center justify-start w-full">
           <div className="flex w-full flex-col">
@@ -51,30 +51,30 @@ const CardTask = (props: ICardTaskProps) => {
 
         <div className="flex items-center justify-between w-full pt-2 ">
           {timeSpent && status === StatusEnum.DOING && (
-              <Chip label={`${hours}:${minutes}:${seconds}`} color={'info'} variant="outlined" />
+            <Chip label={`${hours}:${minutes}:${seconds}`} color={'info'} variant="outlined" />
           )}
 
           {status === StatusEnum.DOING && (
-              <div>
-                {timeSpentState == 'PlAY' && (
-                    <IconButton aria-label="pause">
-                      <PauseOutlinedIcon onClick={() => setTimeSpentState('PAUSE')} />
-                    </IconButton>
-                )}
-
-                {timeSpentState !== 'PlAY' && (
-                    <IconButton aria-label="play/pause">
-                      <PlayArrowIcon
-                          sx={{ height: 34, width: 34 }}
-                          onClick={() => setTimeSpentState('PlAY')}
-                      />
-                    </IconButton>
-                )}
-
-                <IconButton aria-label="stop">
-                  <StopIcon onClick={() => updateTask(id, { ...task, status: StatusEnum.DONE })} />
+            <div>
+              {timeSpentState == 'PlAY' && (
+                <IconButton aria-label="pause">
+                  <PauseOutlinedIcon onClick={() => setTimeSpentState('PAUSE')} />
                 </IconButton>
-              </div>
+              )}
+
+              {timeSpentState !== 'PlAY' && (
+                <IconButton aria-label="play/pause">
+                  <PlayArrowIcon
+                    sx={{ height: 34, width: 34 }}
+                    onClick={() => setTimeSpentState('PlAY')}
+                  />
+                </IconButton>
+              )}
+
+              <IconButton aria-label="stop">
+                {/*<StopIcon onClick={() => updateTask(id, { ...task, status: StatusEnum.DONE })} />*/}
+              </IconButton>
+            </div>
           )}
         </div>
       </div>

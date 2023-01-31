@@ -1,179 +1,97 @@
-import { Box, Fab, Grid, Typography } from '@mui/material';
-import React, { useState} from 'react';
-import illustration from '../../assets/image/illustration.jpg';
-import TodoIcon from '../../assets/image/icon/logo.png';
+import { Fab, Grid } from '@mui/material';
+import React, { useCallback, useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
+import { DragDropContext } from 'react-beautiful-dnd';
 import DrawerTask from './DrawerTask';
-import CardTask from './Card';
 import { MTaskDataModel, StatusEnum } from '../../models/todo/DataModel';
-import SortTask from './Sort';
-
+import HeadApp from './Head';
+import TodoList from './Content/TodoList';
+import DoingList from './Content/DoingList';
+import DoneList from './Content/DoneList';
 
 const TodoApp = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [rendered, setRendered] = useState(false);
 
   const [todoList, setTodoList] = useState<MTaskDataModel[]>([]);
-  // const [doingList, setDoingList] = useState<MTaskDataModel[]>([]);
-  // const [doneList, setDoneList] = useState<MTaskDataModel[]>([]);
   const [taskItem, setTaskItem] = useState<any>(null);
 
-  const Head = (
-    <div className="bg-white w-full flex justify-between">
-      <img src={illustration} className="w-24" alt="" />
-      <h1 className="text-4xl mt-8 text-blue-900">ToDo App</h1>
-      <img className="w-20 h-20 mr-4 mt-2" src={TodoIcon} alt="logo" />
-    </div>
+  const GetTodoList = (status: StatusEnum) =>
+    todoList.filter((task: MTaskDataModel) => task.status === status);
+
+  const onDragEnd = useCallback(
+    (result: any) => {
+      console.log('result:', result);
+      const destinationID = result?.destination?.droppableId;
+      const draggableId = result?.draggableId;
+
+      if (destinationID === StatusEnum.DOING) {
+        console.log('draggableId:', draggableId);
+        console.log('todoList:', todoList);
+        let findTask = todoList.find((item: MTaskDataModel) => item.id === draggableId);
+        // if (findTask) findTask.status = StatusEnum.DOING;
+
+        console.log('findTask:', findTask);
+        setTodoList(
+          todoList.map((item: MTaskDataModel) =>
+            item.id === destinationID
+              ? { ...item, ...{ ...findTask, status: StatusEnum.DOING } }
+              : item,
+          ),
+        );
+      }
+      // const portableDeviceIdFromDrag = result?.draggableId;
+    },
+    [todoList],
   );
-
-  const TodoTabs = (
-    <Box className="border-b border-blue bg-indigo-50 ">
-      <Grid container>
-        <Grid item lg={4} className="flex items-center justify-center py-6">
-          <Typography className="text-blue-900 font-bold">TODO</Typography>
-          <SortTask
-            todoList={todoList}
-            setTodoList={(todoList: MTaskDataModel[]) => {
-              setTodoList(todoList);
-              setRendered(!rendered);
-            }}
-          />
-        </Grid>
-        <Grid
-          item
-          lg={4}
-          className="flex items-center justify-center border-r border-l border-blue  py-6"
-        >
-          <Typography className="text-blue-900 font-bold">DOING</Typography>
-          <SortTask
-            todoList={todoList}
-            setTodoList={(todoList: MTaskDataModel[]) => {
-              setTodoList(todoList);
-              setRendered(!rendered);
-            }}
-          />
-        </Grid>
-        <Grid item lg={4} className="flex items-center justify-center py-6">
-          <Typography className="text-blue-900 font-bold">DONE</Typography>
-          <SortTask
-            todoList={todoList}
-            setTodoList={(todoList: MTaskDataModel[]) => {
-              setTodoList(todoList);
-              setRendered(!rendered);
-            }}
-          />
-        </Grid>
-      </Grid>
-
-      {/*<Tabs value={tabValue} onChange={handleTabChange} centered>*/}
-      {/*  <Tab className="w-full" value={StatusEnum.TODO} label="TODO" />*/}
-
-      {/*  <Tab className="w-full" value={StatusEnum.DOING} label="DOING" />*/}
-
-      {/*  <Tab className="w-full" value={StatusEnum.DONE} label="DONE" />*/}
-
-      {/*</Tabs>*/}
-    </Box>
-  );
-
-  const GetTodoList = (status: StatusEnum ) => todoList.filter((task: MTaskDataModel) => task.status === status);
 
   const TodoContent = (
     <div
       className="flex flex-col w-full items-center bg-indigo-50 h-full border  rounded-lg overflow-scroll"
       style={{ height: '75vh' }}
     >
-      <Grid container>
-        <Grid item lg={4}>
-          {GetTodoList(StatusEnum.TODO).map((task: MTaskDataModel, index: number) => {
-            return (
-              <CardTask
-                task={task}
-                setTaskItem={(task: MTaskDataModel) => {
-                  setTaskItem(task);
-                  setOpenDrawer(true);
-                }}
-                updateTask={(id: number, task: MTaskDataModel) => {
-                  setTodoList(
-                    todoList.map((item: MTaskDataModel) =>
-                      item.id === id ? { ...item, ...task } : item,
-                    ),
-                  );
-                }}
-                key={`todoList${index}`}
-              />
-            );
-          })}
-        </Grid>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Grid container>
+          <TodoList
+            todoList={GetTodoList(StatusEnum.TODO)}
+            setOpenDrawer={setOpenDrawer}
+            setTaskItem={setTaskItem}
+          />
 
-        <Grid
-          item
-          lg={4}
-          className="flex items-start justify-center border-r border-l border-blue-200 "
-        >
-          {GetTodoList(StatusEnum.DOING).map((task: MTaskDataModel, index: number) => {
-            return (
-              <CardTask
-                task={task}
-                setTaskItem={(task: MTaskDataModel) => {
-                  setTaskItem(task);
-                  setOpenDrawer(true);
-                }}
-                updateTask={(id: number, task: MTaskDataModel) => {
-                  setTodoList(
-                    todoList.map((item: MTaskDataModel) =>
-                      item.id === id ? { ...item, ...task } : item,
-                    ),
-                  );
-                }}
-                key={`todoList${index}`}
-              />
-            );
-          })}
-        </Grid>
+          <DoingList
+            doingList={GetTodoList(StatusEnum.DOING)}
+            setOpenDrawer={setOpenDrawer}
+            setTaskItem={setTaskItem}
+          />
 
-        <Grid item lg={4} className="flex items-start justify-center ">
-          {GetTodoList(StatusEnum.DONE).map((task: MTaskDataModel, index: number) => {
-            return (
-              <CardTask
-                task={task}
-                setTaskItem={(task: MTaskDataModel) => {
-                  setTaskItem(task);
-                  setOpenDrawer(true);
-                }}
-                updateTask={(id: number, task: MTaskDataModel) => {
-                  setTodoList(
-                    todoList.map((item: MTaskDataModel) =>
-                      item.id === id ? { ...item, ...task } : item,
-                    ),
-                  );
-                }}
-                key={`todoList${index}`}
-              />
-            );
-          })}
+          <DoneList
+            doneList={GetTodoList(StatusEnum.DONE)}
+            setOpenDrawer={setOpenDrawer}
+            setTaskItem={setTaskItem}
+          />
         </Grid>
-      </Grid>
+      </DragDropContext>
     </div>
   );
 
-  const AddTask = (task: MTaskDataModel) =>  setTodoList((old: any) => [...old, ...[task]]);
+  const AddTask = (task: MTaskDataModel) => setTodoList((old: any) => [...old, ...[task]]);
 
-  const UpdateTask = (id: number, task: MTaskDataModel) => setTodoList(
+  const UpdateTask = (id: string, task: MTaskDataModel) =>
+    setTodoList(
       todoList.map((item: MTaskDataModel) => (item.id === id ? { ...item, ...task } : item)),
-  );
+    );
 
-  const DeleteTask = (id: number) =>  setTodoList(todoList.filter((item: any) => item.id !== id));
+  const DeleteTask = (id: string) => setTodoList(todoList.filter((item: any) => item.id !== id));
 
   return (
     <div className="w-full flex flex-col items-center ">
-      {Head}
+      <HeadApp
+        todoList={todoList}
+        setTodoList={setTodoList}
+        setRendered={() => setRendered(!rendered)}
+      />
 
-      <div className="w-2/3">
-        {TodoTabs}
-
-        {TodoContent}
-      </div>
+      <div className="w-2/3">{TodoContent}</div>
 
       <div className="absolute right-8 bottom-8">
         <Fab

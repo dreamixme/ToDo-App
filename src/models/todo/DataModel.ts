@@ -1,5 +1,5 @@
 export interface MTaskDataModel {
-  id: number;
+  id: string;
   title: string;
   description: string;
   priority: number;
