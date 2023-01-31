@@ -26,55 +26,57 @@ const CardTask = (props: ICardTaskProps) => {
   const hours = parseInt(timeSpent, 10) - 1;
 
   return (
-    <div
-      onClick={() => setTaskItem(task)}
-      className="w-11/12  flex flex-col justify-start shadow-xl bg-white hover:bg-blue-100 mt-4 rounded-lg p-4 border cursor-pointer "
-    >
-      <div className="flex items-center justify-start w-full">
-        <div className="flex w-full flex-col">
-          <div className="flex justify-end">
-            <Typography className="text-gray-900 font-bold">{title}</Typography>
-            <TaskOutlinedIcon className="text-gray-500 ml-4" />
-          </div>
-          <div className="flex justify-end mt-1">
-            <Typography className="text-gray-500  mr-4">{description}</Typography>
-            <FolderOpenOutlinedIcon className="text-gray-500 ml-4" />
+    <div className="w-full flex items-center justify-center">
+      <div
+          onClick={() => setTaskItem(task)}
+          className="w-11/12 flex flex-col justify-start shadow-xl bg-white hover:bg-blue-100 mt-4 rounded-lg p-4 border cursor-pointer "
+      >
+        <div className="flex items-center justify-start w-full">
+          <div className="flex w-full flex-col">
+            <div className="flex justify-end">
+              <Typography className="text-gray-900 font-bold">{title}</Typography>
+              <TaskOutlinedIcon className="text-gray-500 ml-4" />
+            </div>
+            <div className="flex justify-end mt-1">
+              <Typography className="text-gray-500  mr-4">{description}</Typography>
+              <FolderOpenOutlinedIcon className="text-gray-500 ml-4" />
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="flex justify-end mt-2">
-        <Typography className="text-gray-800 mr-4">{`اولویت: ${priority}`}</Typography>
-        <ClearAllOutlinedIcon className="text-gray-800 ml-4" />
-      </div>
+        <div className="flex justify-end mt-2">
+          <Typography className="text-gray-800 mr-4">{`اولویت: ${priority}`}</Typography>
+          <ClearAllOutlinedIcon className="text-gray-800 ml-4" />
+        </div>
 
-      <div className="flex items-center justify-between w-full pt-2 ">
-        {timeSpent && status === StatusEnum.DOING && (
-          <Chip label={`${hours}:${minutes}:${seconds}`} color={'info'} variant="outlined" />
-        )}
+        <div className="flex items-center justify-between w-full pt-2 ">
+          {timeSpent && status === StatusEnum.DOING && (
+              <Chip label={`${hours}:${minutes}:${seconds}`} color={'info'} variant="outlined" />
+          )}
 
-        {status === StatusEnum.DOING && (
-          <div>
-            {timeSpentState == 'PlAY' && (
-              <IconButton aria-label="pause">
-                <PauseOutlinedIcon onClick={() => setTimeSpentState('PAUSE')} />
-              </IconButton>
-            )}
+          {status === StatusEnum.DOING && (
+              <div>
+                {timeSpentState == 'PlAY' && (
+                    <IconButton aria-label="pause">
+                      <PauseOutlinedIcon onClick={() => setTimeSpentState('PAUSE')} />
+                    </IconButton>
+                )}
 
-            {timeSpentState !== 'PlAY' && (
-              <IconButton aria-label="play/pause">
-                <PlayArrowIcon
-                  sx={{ height: 34, width: 34 }}
-                  onClick={() => setTimeSpentState('PlAY')}
-                />
-              </IconButton>
-            )}
+                {timeSpentState !== 'PlAY' && (
+                    <IconButton aria-label="play/pause">
+                      <PlayArrowIcon
+                          sx={{ height: 34, width: 34 }}
+                          onClick={() => setTimeSpentState('PlAY')}
+                      />
+                    </IconButton>
+                )}
 
-            <IconButton aria-label="stop">
-              <StopIcon onClick={() => updateTask(id, { ...task, status: StatusEnum.DONE })} />
-            </IconButton>
-          </div>
-        )}
+                <IconButton aria-label="stop">
+                  <StopIcon onClick={() => updateTask(id, { ...task, status: StatusEnum.DONE })} />
+                </IconButton>
+              </div>
+          )}
+        </div>
       </div>
     </div>
   );

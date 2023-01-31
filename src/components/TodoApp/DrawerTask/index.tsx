@@ -19,7 +19,7 @@ type IDrawerTaskProps = {
   closeDrawer: (openDrawer: false) => void;
   addTask: (task: MTaskDataModel) => void;
   updateTask: (id: number, task: MTaskDataModel) => void;
-  deleteTask: (id: number, status: StatusEnum) => void;
+  deleteTask: (id: number) => void;
   taskItem: MTaskDataModel;
 };
 
@@ -35,7 +35,7 @@ const defaultValues: any = {
 
 const DrawerTask = (props: IDrawerTaskProps) => {
   const { openDrawer, closeDrawer, addTask, taskItem, deleteTask, updateTask } = props;
-  const { id, status } = taskItem || {};
+  const { id } = taskItem || {};
 
   const {
     control,
@@ -206,7 +206,7 @@ const DrawerTask = (props: IDrawerTaskProps) => {
           variant={'outlined'}
           text="حذف"
           onClick={() => {
-            deleteTask(id, status);
+            deleteTask(id);
             toggleDrawer();
           }}
         />
